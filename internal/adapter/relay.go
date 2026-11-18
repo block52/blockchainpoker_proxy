@@ -79,6 +79,11 @@ func Snapshot(ctx context.Context, up Upstream, tableID int64, playerAddr string
 	if err != nil {
 		return Frame{}, err
 	}
+	// blockchain.poker answers `join` for a finished/unknown table with some OTHER table.
+	// Never show that as the requested one.
+	if tb.ID != tableID {
+		return Frame{}, &UpstreamError{Code: "GAME_NOT_FOUND", Message: "table " + strconv.FormatInt(tableID, 10) + " is not running on blockchain.poker"}
+	}
 	hero := Hero{Address: playerAddr, SeatIndex: -1}
 	if mine, err := up.Emit(ctx, "getMyTables", map[string]any{}); err == nil {
 		var r struct {
@@ -162,7 +167,11 @@ func (r *Relay) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		f, err := Snapshot(ctx, up, tableID, player)
 		if err != nil {
 			log.Printf("relay: snapshot table %d: %v", tableID, err)
-			send(ctx, c, map[string]string{"type": "error", "code": "UPSTREAM", "message": err.Error(), "gameId": strconv.FormatInt(tableID, 10)})
+			code := "UPSTREAM"
+			if ue, ok := err.(*UpstreamError); ok {
+				code = ue.Code
+			}
+			send(ctx, c, map[string]string{"type": "error", "code": code, "message": err.Error(), "gameId": strconv.FormatInt(tableID, 10)})
 			return
 		}
 		send(ctx, c, f)

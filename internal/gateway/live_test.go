@@ -59,3 +59,33 @@ func TestLiveGateway(t *testing.T) {
 	time.Sleep(3 * time.Second)
 	t.Logf("pushes seen (event: count) after join: %v", pushes)
 }
+
+// GW=... GWSECRET=... ADDR=... LIVE_EVENT=gettables LIVE_DATA='{"offset":0,"pageSize":50,"filters":{}}' go test -tags live -run TestLiveCall -v
+func TestLiveCall(t *testing.T) {
+	base, ev := os.Getenv("GW"), os.Getenv("LIVE_EVENT")
+	if base == "" || ev == "" {
+		t.Skip()
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	c, _, err := websocket.Dial(ctx, "ws"+base[4:]+"/v1/ws", &websocket.DialOptions{HTTPHeader: http.Header{
+		"Authorization": {"Bearer " + os.Getenv("GWSECRET")}, "X-B52-Address": {os.Getenv("ADDR")}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer c.CloseNow()
+	c.SetReadLimit(16 << 20)
+	c.Write(ctx, websocket.MessageText, []byte(`{"id":"x","event":"`+ev+`","data":`+os.Getenv("LIVE_DATA")+`}`))
+	for {
+		_, d, err := c.Read(ctx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var o out
+		json.Unmarshal(d, &o)
+		if o.ID == "x" {
+			os.Stdout.Write(append([]byte(scrub.ReplaceAllString(string(o.Ack), `$1"[redacted]"`)), '\n'))
+			return
+		}
+	}
+}
