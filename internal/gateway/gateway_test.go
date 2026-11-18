@@ -243,3 +243,20 @@ func TestFileStoreEncryptedRoundTrip(t *testing.T) {
 		t.Fatal("wrong key must fail")
 	}
 }
+
+func TestGatewayTestAccountLogin(t *testing.T) {
+	bp := newFakeBP(t)
+	store := &MemStore{}
+	g := New(Config{UpstreamWS: wsURL(bp.URL) + "/socket.io/?EIO=4&transport=websocket",
+		TestUsername: "tester", TestPassword: "pw-xyz"}, DevAuth{Secret: "dev"}, store)
+	gw := httptest.NewServer(g)
+	defer gw.Close()
+	_ = dialUI(t, gw, "b52any", "dev")
+	a := bp.auths[0]
+	if a["username"] != "tester" || a["password"] != "pw-xyz" || a["isNewUserAttempt"] != false || a["captchaToken"] != "" {
+		t.Fatalf("test-account payload: %v", a)
+	}
+	if c, ok := store.Get("b52any"); !ok || c.AuthToken != "tok-1" {
+		t.Fatalf("session creds not stored: %+v", c)
+	}
+}

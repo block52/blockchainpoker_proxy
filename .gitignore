@@ -3,3 +3,4 @@
 *.jsonl
 *.log
 *.enc
+.env*

@@ -24,6 +24,10 @@ type Config struct {
 	UpstreamWS     string // wss://api.blockchain.poker/socket.io/?EIO=4&transport=websocket
 	UpstreamOrigin string // https://blockchain.poker
 	CaptchaToken   string // partner-issued Turnstile bypass for guest provisioning (empty = cannot provision)
+	// TestUsername/TestPassword: POC test mode. Every b52 address without stored creds logs in as
+	// this one existing blockchain.poker account (so only one player can be seated at a time).
+	TestUsername   string
+	TestPassword   string
 	AllowedOrigins []string
 	Allow          map[string]bool
 }
@@ -251,6 +255,8 @@ func (g *Gateway) login(ctx context.Context, s *session) error {
 	}
 	if have {
 		p["username"], p["authToken"], p["secret"] = creds.Name, creds.AuthToken, creds.Secret
+	} else if g.cfg.TestUsername != "" {
+		p["username"], p["password"], p["isNewUserAttempt"] = g.cfg.TestUsername, g.cfg.TestPassword, false
 	} else {
 		if g.cfg.CaptchaToken == "" {
 			return errors.New("no stored account and no captcha bypass configured: cannot provision")

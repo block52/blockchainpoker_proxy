@@ -68,9 +68,11 @@ func main() {
 			UpstreamWS:     up,
 			UpstreamOrigin: cfg.WebUpstream,
 			CaptchaToken:   os.Getenv("BP_CAPTCHA_BYPASS"),
+			TestUsername:   os.Getenv("BP_TEST_USERNAME"),
+			TestPassword:   os.Getenv("BP_TEST_PASSWORD"),
 			AllowedOrigins: strings.Split(gwOrigins, ","),
 		}, gateway.DevAuth{Secret: os.Getenv("B52GW_DEV_SECRET")}, st)
-		log.Printf("gateway enabled at /v1/ws (store %s, provisioning %v)", gwStore, os.Getenv("BP_CAPTCHA_BYPASS") != "")
+		log.Printf("gateway enabled at /v1/ws (store %s, provisioning %v, test account %v)", gwStore, os.Getenv("BP_CAPTCHA_BYPASS") != "", os.Getenv("BP_TEST_USERNAME") != "")
 	}
 	log.Printf("listening %s, public %s, api %s, web %s, record %q", cfg.Listen, cfg.PublicURL, cfg.APIUpstream, cfg.WebUpstream, record)
 	hs := &http.Server{Addr: cfg.Listen, Handler: srv, ReadHeaderTimeout: 10 * time.Second}
