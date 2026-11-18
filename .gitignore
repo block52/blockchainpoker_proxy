@@ -1,0 +1,5 @@
+/blockchainpoker_proxy
+/captures/
+*.jsonl
+*.log
+*.enc
