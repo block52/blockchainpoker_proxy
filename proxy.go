@@ -26,13 +26,14 @@ type Config struct {
 }
 
 type Server struct {
-	cfg  Config
-	api  *httputil.ReverseProxy
-	web  *httputil.ReverseProxy
-	rec  *Recorder
-	GW   http.Handler // optional b52 gateway, mounted at /v1/
-	apiU *url.URL
-	webU *url.URL
+	cfg   Config
+	api   *httputil.ReverseProxy
+	web   *httputil.ReverseProxy
+	rec   *Recorder
+	GW    http.Handler // optional b52 gateway, mounted at /v1/
+	Relay http.Handler // optional chain-relay adapter, mounted at /ws
+	apiU  *url.URL
+	webU  *url.URL
 }
 
 func NewServer(cfg Config, rec *Recorder) (*Server, error) {
@@ -102,6 +103,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case strings.HasPrefix(r.URL.Path, "/v1/") && s.GW != nil:
 		s.GW.ServeHTTP(w, r)
+	case r.URL.Path == "/ws" && s.Relay != nil:
+		s.Relay.ServeHTTP(w, r)
 	case r.URL.Path == "/healthz":
 		fmt.Fprintln(w, "ok")
 	case strings.HasPrefix(r.URL.Path, "/socket.io/"):

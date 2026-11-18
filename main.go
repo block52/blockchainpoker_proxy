@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/block52/blockchainpoker_proxy/internal/adapter"
 	"github.com/block52/blockchainpoker_proxy/internal/gateway"
 )
 
@@ -28,8 +29,9 @@ func main() {
 	flag.StringVar(&record, "record", "captures/frames.jsonl", "JSONL frame capture path ('' disables)")
 	flag.BoolVar(&pings, "log-pings", false, "also record engine.io ping/pong frames")
 	var gwStore, gwOrigins string
-	var gwOn bool
+	var gwOn, relayOn bool
 	flag.BoolVar(&gwOn, "gateway", false, "enable the b52 gateway at /v1/ws (needs B52GW_KEY, B52GW_DEV_SECRET)")
+	flag.BoolVar(&relayOn, "relay", false, "serve the chain relay protocol at /ws backed by blockchain.poker (needs -gateway; loopback only)")
 	flag.StringVar(&gwStore, "gateway-store", "captures/creds.enc", "encrypted credential store for per-user bp accounts")
 	flag.StringVar(&gwOrigins, "gateway-origins", "localhost:*", "comma-separated allowed browser origins for /v1/ws")
 	flag.Parse()
@@ -72,6 +74,11 @@ func main() {
 			TestPassword:   os.Getenv("BP_TEST_PASSWORD"),
 			AllowedOrigins: strings.Split(gwOrigins, ","),
 		}, gateway.DevAuth{Secret: os.Getenv("B52GW_DEV_SECRET")}, st)
+		if relayOn {
+			gw := srv.GW.(*gateway.Gateway)
+			srv.Relay = &adapter.Relay{Open: adapter.OpenerFor(gw), Origins: strings.Split(gwOrigins, ",")}
+			log.Printf("relay adapter enabled at /ws (loopback only, view-only)")
+		}
 		log.Printf("gateway enabled at /v1/ws (store %s, provisioning %v, test account %v)", gwStore, os.Getenv("BP_CAPTCHA_BYPASS") != "", os.Getenv("BP_TEST_USERNAME") != "")
 	}
 	log.Printf("listening %s, public %s, api %s, web %s, record %q", cfg.Listen, cfg.PublicURL, cfg.APIUpstream, cfg.WebUpstream, record)
