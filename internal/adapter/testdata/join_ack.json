@@ -1,0 +1,462 @@
+{
+  "table": {
+    "hostId": null,
+    "buyIn": 50,
+    "currency": "BCH",
+    "handId": 3205243,
+    "id": 53803,
+    "isFeatured": false,
+    "isHandInProgress": true,
+    "isInJoinPhase": false,
+    "isPrivate": false,
+    "verifiedOnly": false,
+    "limit": {
+      "limit": "NONE",
+      "label": "No Limit",
+      "default": true
+    },
+    "initialTimeBank": 22,
+    "timeBank": 45,
+    "maxBuyIn": 1000,
+    "name": "Mundaner Decurions",
+    "nextBaseUnit": 1,
+    "nextBigBlindAmount": 40,
+    "nextSmallBlindAmount": 20,
+    "nextTurnTimeout": 12,
+    "numSeats": 9,
+    "numHoleCards": 2,
+    "requiredHoleCardsInBestHand": 0,
+    "maxHoleCardsInBestHand": 0,
+    "rake": 0.05,
+    "removed": false,
+    "seatsTaken": 6,
+    "TournamentId": 20720,
+    "tournamentKey": "x",
+    "isOnBreak": false,
+    "isNextLevelBreak": false,
+    "tournament": "Hourly Freeroll",
+    "isSitNGo": false,
+    "buyInCost": 0,
+    "reEntryCost": 24000,
+    "sponsorLogo": "",
+    "sponsorName": "Blockchain Poker",
+    "sponsorLink": "",
+    "tournamentPaused": false,
+    "tournamentFinished": false,
+    "isRegistered": true,
+    "canRegister": true,
+    "numTimesEntered": 1,
+    "canUnregister": false,
+    "canJoin": false,
+    "isEliminated": false,
+    "baseUnit": 1,
+    "blinds": {
+      "big": 40,
+      "small": 20
+    },
+    "cards": [
+      {
+        "suit": "CLUBS",
+        "rank": "3",
+        "index": 0,
+        "time": "2026-11-18T09:15:04.654Z"
+      },
+      {
+        "suit": "DIAMONDS",
+        "rank": "K",
+        "index": 1,
+        "time": "2026-11-18T09:15:04.654Z"
+      },
+      {
+        "suit": "SPADES",
+        "rank": "9",
+        "index": 2,
+        "time": "2026-11-18T09:15:04.654Z"
+      },
+      {
+        "suit": "HEARTS",
+        "rank": "K",
+        "index": 3,
+        "time": "2026-11-18T09:15:12.245Z"
+      }
+    ],
+    "currentBet": 0,
+    "isRoundInProgress": true,
+    "isTurnInProgress": true,
+    "key": "x",
+    "minBet": 40,
+    "positions": {
+      "dealer": 8,
+      "smallBlind": 0,
+      "bigBlind": 1,
+      "active": 1
+    },
+    "pot": 140,
+    "rakeTaken": 0,
+    "remainingLevelTime": 138053,
+    "round": "TURN",
+    "rounds": [
+      {
+        "round": "PREFLOP",
+        "pot": 0,
+        "currentBet": 40,
+        "community": [],
+        "id": 6979559,
+        "time": 1794993287701
+      },
+      {
+        "round": "FLOP",
+        "pot": 140,
+        "currentBet": 40,
+        "community": [
+          {
+            "suit": "CLUBS",
+            "rank": "3",
+            "index": 0,
+            "time": "2026-11-18T09:15:04.654Z"
+          },
+          {
+            "suit": "DIAMONDS",
+            "rank": "K",
+            "index": 1,
+            "time": "2026-11-18T09:15:04.654Z"
+          },
+          {
+            "suit": "SPADES",
+            "rank": "9",
+            "index": 2,
+            "time": "2026-11-18T09:15:04.654Z"
+          }
+        ],
+        "id": 6979565,
+        "time": 1794993304574
+      },
+      {
+        "round": "TURN",
+        "pot": 140,
+        "currentBet": 0,
+        "community": [
+          {
+            "suit": "HEARTS",
+            "rank": "K",
+            "index": 3,
+            "time": "2026-11-18T09:15:12.245Z"
+          }
+        ],
+        "id": 6979567,
+        "time": 1794993312229
+      }
+    ],
+    "seats": [
+      {
+        "bankedTime": 44,
+        "index": 0,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": true,
+        "sittingOutTime": null,
+        "stack": 760,
+        "standing": null,
+        "waitingForBlind": false,
+        "id": 1000,
+        "level": 16,
+        "name": "Player0",
+        "hasActiveTurboRakeback": false,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": true,
+        "mucked": true,
+        "placing": null,
+        "potContributions": 20,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "POST_BLIND",
+            "amount": 20,
+            "time": 1794993287453
+          },
+          {
+            "type": "FOLD",
+            "amount": null,
+            "time": 1794993295624
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1000
+      },
+      {
+        "bankedTime": 44,
+        "index": 1,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": null,
+        "stack": 990,
+        "standing": false,
+        "waitingForBlind": false,
+        "id": 1001,
+        "level": 42,
+        "name": "Player1",
+        "hasActiveTurboRakeback": true,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": false,
+        "mucked": false,
+        "placing": null,
+        "potContributions": 40,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "POST_BLIND",
+            "amount": 40,
+            "time": 1794993287453
+          },
+          {
+            "type": "CHECK",
+            "amount": null,
+            "time": 1794993304245
+          },
+          {
+            "type": "CHECK",
+            "amount": null,
+            "time": 1794993305596
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1001,
+        "handRank": null,
+        "handValue": null,
+        "revealHand": false,
+        "rakeback": 0,
+        "turboRakebackMultiplier": 1,
+        "winnings": 0,
+        "isBigBlind": true
+      },
+      {
+        "bankedTime": 22,
+        "index": 2,
+        "leftSeatThisHand": false,
+        "wasInHand": false,
+        "originalBuyIn": 0,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": "2026-11-18T09:10:26.028Z",
+        "stack": 0,
+        "standing": false,
+        "waitingForBlind": false
+      },
+      {
+        "bankedTime": 22,
+        "index": 3,
+        "leftSeatThisHand": null,
+        "wasInHand": false,
+        "originalBuyIn": 0,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": null,
+        "stack": 0,
+        "standing": false,
+        "waitingForBlind": false
+      },
+      {
+        "bankedTime": 44,
+        "index": 4,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": true,
+        "sittingOutTime": null,
+        "stack": 790,
+        "standing": null,
+        "waitingForBlind": false,
+        "id": 1004,
+        "level": 14,
+        "name": "Player4",
+        "hasActiveTurboRakeback": false,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": true,
+        "mucked": true,
+        "placing": null,
+        "potContributions": 0,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "FOLD",
+            "amount": null,
+            "time": 1794993287827
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1004
+      },
+      {
+        "bankedTime": 44,
+        "index": 5,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": "2026-11-18T09:02:46.933Z",
+        "stack": 2410,
+        "standing": false,
+        "waitingForBlind": false,
+        "id": 1005,
+        "level": 6,
+        "name": "Player5",
+        "hasActiveTurboRakeback": false,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": true,
+        "mucked": true,
+        "placing": null,
+        "potContributions": 0,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "FOLD",
+            "amount": null,
+            "time": 1794993291852
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1005
+      },
+      {
+        "bankedTime": 44,
+        "index": 6,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": "2026-11-18T09:12:07.445Z",
+        "stack": 1920,
+        "standing": false,
+        "waitingForBlind": false,
+        "id": 1006,
+        "level": 17,
+        "name": "Player6",
+        "hasActiveTurboRakeback": true,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": false,
+        "mucked": false,
+        "placing": null,
+        "potContributions": 40,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "CALL",
+            "amount": 40,
+            "time": 1794993293355
+          },
+          {
+            "type": "CHECK",
+            "amount": null,
+            "time": 1794993306886
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1006,
+        "handRank": null,
+        "handValue": null,
+        "revealHand": false,
+        "rakeback": 0,
+        "turboRakebackMultiplier": 1,
+        "winnings": 0
+      },
+      {
+        "bankedTime": 22,
+        "index": 7,
+        "leftSeatThisHand": null,
+        "wasInHand": false,
+        "originalBuyIn": 0,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": null,
+        "stack": 0,
+        "standing": false,
+        "waitingForBlind": false
+      },
+      {
+        "bankedTime": 22,
+        "index": 8,
+        "leftSeatThisHand": false,
+        "wasInHand": true,
+        "originalBuyIn": 1000,
+        "postingBlinds": false,
+        "sittingOut": false,
+        "sittingOutTime": null,
+        "stack": 990,
+        "standing": false,
+        "waitingForBlind": false,
+        "id": 1008,
+        "level": 15,
+        "name": "Player8",
+        "hasActiveTurboRakeback": false,
+        "bankedTimeEnabled": false,
+        "bet": 0,
+        "isFolded": false,
+        "mucked": false,
+        "placing": null,
+        "potContributions": 40,
+        "rakeTaken": 0,
+        "actions": [
+          {
+            "type": "CALL",
+            "amount": 40,
+            "time": 1794993295551
+          },
+          {
+            "type": "CHECK",
+            "amount": null,
+            "time": 1794993312112
+          }
+        ],
+        "cards": [
+          null,
+          null
+        ],
+        "account": 1008,
+        "handRank": null,
+        "handValue": null,
+        "revealHand": false,
+        "rakeback": 0,
+        "turboRakebackMultiplier": 1,
+        "winnings": 0,
+        "isDealer": true
+      }
+    ],
+    "table": 53803,
+    "turnTimeout": 12,
+    "time": 10.998,
+    "maxBet": 990
+  },
+  "you": {
+    "currency": "BCH",
+    "address": null,
+    "hand": []
+  }
+}

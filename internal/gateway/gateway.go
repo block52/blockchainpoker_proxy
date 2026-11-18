@@ -292,3 +292,61 @@ func short(a string) string {
 	}
 	return a
 }
+
+// Event is one upstream push, decoded.
+type Event struct {
+	Name string
+	Data json.RawMessage
+}
+
+// Handle is a live upstream session for in-process consumers (the relay adapter).
+type Handle struct{ s *session }
+
+// Open returns the (shared) upstream session for a b52 address, logging in if needed.
+func (g *Gateway) Open(ctx context.Context, addr string) (*Handle, error) {
+	s, err := g.session(ctx, addr)
+	if err != nil {
+		return nil, err
+	}
+	return &Handle{s: s}, nil
+}
+
+func (h *Handle) Emit(ctx context.Context, event string, payload any) (json.RawMessage, error) {
+	return h.s.c.Emit(ctx, event, payload)
+}
+
+// Done closes when the upstream connection drops.
+func (h *Handle) Done() <-chan struct{} { return h.s.c.Done() }
+
+// Subscribe streams upstream pushes until cancel is called. Slow consumers drop frames.
+func (h *Handle) Subscribe() (<-chan Event, func()) {
+	sub := &subscriber{out: make(chan []byte, 256)}
+	h.s.mu.Lock()
+	h.s.subs[sub] = struct{}{}
+	h.s.mu.Unlock()
+	ch := make(chan Event, 256)
+	stop := make(chan struct{})
+	go func() {
+		defer close(ch)
+		for {
+			select {
+			case b := <-sub.out:
+				var o out
+				if json.Unmarshal(b, &o) == nil && o.Event != "" {
+					select {
+					case ch <- Event{Name: o.Event, Data: o.Data}:
+					default:
+					}
+				}
+			case <-stop:
+				return
+			}
+		}
+	}()
+	return ch, func() {
+		h.s.mu.Lock()
+		delete(h.s.subs, sub)
+		h.s.mu.Unlock()
+		close(stop)
+	}
+}
