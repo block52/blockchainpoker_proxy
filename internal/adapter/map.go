@@ -14,6 +14,9 @@ import (
 type Card struct {
 	Suit string `json:"suit"`
 	Rank string `json:"rank"`
+	// Set on seat cards: a revealed hand lists the player's two hole cards (HoleCard) among
+	// the best-five cards. Masked opponents have [null,null].
+	HoleCard bool `json:"holeCard"`
 }
 
 type BPSeat struct {
@@ -28,6 +31,7 @@ type BPSeat struct {
 	WasInHand        bool    `json:"wasInHand"`
 	WaitingForBlind  bool    `json:"waitingForBlind"`
 	Mucked           bool    `json:"mucked"`
+	RevealHand       bool    `json:"revealHand"`
 	Cards            []Card  `json:"cards"`
 }
 
@@ -58,7 +62,10 @@ type BPTable struct {
 		BigBlind   *int `json:"bigBlind"`
 		Active     *int `json:"active"`
 	} `json:"positions"`
-	Seats []BPSeat `json:"seats"`
+	Seats  []BPSeat `json:"seats"`
+	Rounds []struct {
+		Community []Card `json:"community"`
+	} `json:"rounds"`
 }
 
 // Hero is the b52 user's own seat at the table (from getMyTables), whose address the UI knows.
@@ -168,6 +175,11 @@ func Format(t BPTable) string {
 // Round maps blockchain.poker rounds. No hand in progress (or an unknown value) is "end".
 func Round(t BPTable) string {
 	if !t.IsHandInProgress {
+		for _, s := range t.Seats {
+			if len(holeOnly(s.Cards)) > 0 {
+				return "showdown"
+			}
+		}
 		return "end"
 	}
 	switch strings.ToUpper(t.Round) {
@@ -221,7 +233,7 @@ func BuildFrame(t BPTable, hero Hero) Frame {
 	st := State{
 		GameOptions:   opts,
 		SmallBlindPos: seatOf(t.Positions.SmallBlind), BigBlindPos: seatOf(t.Positions.BigBlind), Dealer: seatOf(t.Positions.Dealer),
-		Players: []Player{}, CommunityCards: cardStrings(t.Cards), Pots: []string{num(t.Pot)}, TotalPot: num(t.Pot),
+		Players: []Player{}, CommunityCards: cardStrings(board(t)), Pots: []string{num(t.Pot)}, TotalPot: num(t.Pot),
 		NextToAct: seatOf(t.Positions.Active), PreviousActions: []any{}, HandNumber: t.HandID, Round: Round(t),
 		Winners: []any{}, Results: []any{}, LegalActions: []any{}, AvailableSeats: []int{},
 	}
@@ -233,9 +245,15 @@ func BuildFrame(t BPTable, hero Hero) Frame {
 		taken[s.Index] = true
 		addr := "bp-" + strconv.FormatInt(s.ID, 10)
 		var hole []string
+		revealed := cardStrings(holeOnly(s.Cards))
 		switch {
 		case hero.SeatIndex == s.Index:
 			addr, hole = hero.Address, cardStrings(hero.Hole)
+			if len(hole) == 0 {
+				hole = revealed
+			}
+		case len(revealed) > 0: // shown at showdown / all-in
+			hole = revealed
 		case t.IsHandInProgress && s.WasInHand && !s.IsFolded:
 			for i := 0; i < t.NumHoleCards; i++ { // the chain relay masks live opponents' cards as "X"
 				hole = append(hole, "X")
@@ -278,3 +296,22 @@ func DecodeJoin(raw json.RawMessage) (BPTable, error) {
 type UpstreamError struct{ Code, Message string }
 
 func (e *UpstreamError) Error() string { return e.Code + ": " + e.Message }
+
+// board is the community cards; handEnd clears the top-level list, so fall back to the rounds.
+func board(t BPTable) []Card {
+	if len(t.Cards) > 0 {
+		return t.Cards
+	}
+	var out []Card
+	for _, r := range t.Rounds {
+		out = append(out, r.Community...)
+	}
+	return out
+}
+
+// DecodeTable reads a table-shaped push (handEnd) whose fields sit at the top level.
+func DecodeTable(raw json.RawMessage) (BPTable, error) {
+	var t BPTable
+	err := json.Unmarshal(raw, &t)
+	return t, err
+}

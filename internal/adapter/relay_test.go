@@ -130,10 +130,10 @@ func TestIsLoopback(t *testing.T) {
 func TestSnapshotRefusesAForeignTable(t *testing.T) {
 	raw, _ := os.ReadFile("testdata/join_ack.json") // table 53803
 	up := &fakeUp{join: raw, events: make(chan gateway.Event), done: make(chan struct{})}
-	if _, err := Snapshot(context.Background(), up, 53803, "b52x"); err != nil {
+	if _, _, err := Snapshot(context.Background(), up, 53803, "b52x", nil); err != nil {
 		t.Fatalf("matching table must work: %v", err)
 	}
-	_, err := Snapshot(context.Background(), up, 99999, "b52x") // bp would have answered with another table
+	_, _, err := Snapshot(context.Background(), up, 99999, "b52x", nil) // bp would have answered with another table
 	if ue, ok := err.(*UpstreamError); !ok || ue.Code != "GAME_NOT_FOUND" {
 		t.Fatalf("want GAME_NOT_FOUND, got %v", err)
 	}

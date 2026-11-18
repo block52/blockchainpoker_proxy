@@ -1,0 +1,344 @@
+{
+  "baseUnit": 1,
+  "blinds": {
+    "big": 2,
+    "small": 1
+  },
+  "cards": [
+    {
+      "suit": "HEARTS",
+      "rank": "9",
+      "index": 0,
+      "time": "2026-11-18T00:32:53.729Z"
+    },
+    {
+      "suit": "CLUBS",
+      "rank": "K",
+      "index": 1,
+      "time": "2026-11-18T00:32:53.729Z"
+    },
+    {
+      "suit": "HEARTS",
+      "rank": "5",
+      "index": 2,
+      "time": "2026-11-18T00:32:53.729Z"
+    },
+    {
+      "suit": "DIAMONDS",
+      "rank": "4",
+      "index": 3,
+      "time": "2026-11-18T00:32:56.512Z"
+    },
+    {
+      "suit": "SPADES",
+      "rank": "6",
+      "index": 4,
+      "time": "2026-11-18T00:32:59.250Z"
+    }
+  ],
+  "currency": "LTC",
+  "currentBet": 0,
+  "handId": 3199057,
+  "id": 53567,
+  "isHandInProgress": false,
+  "isPrivate": false,
+  "isRoundInProgress": false,
+  "isTurnInProgress": false,
+  "key": "x",
+  "limit": "NONE",
+  "minBet": 2,
+  "name": "Overlocker Blowby",
+  "nextBigBlindAmount": 2,
+  "nextSmallBlindAmount": 1,
+  "numSeats": 9,
+  "numHoleCards": 2,
+  "requiredHoleCardsInBestHand": 0,
+  "maxHoleCardsInBestHand": 0,
+  "positions": {
+    "dealer": 8,
+    "smallBlind": 0,
+    "bigBlind": 2
+  },
+  "pot": 0,
+  "rakeTaken": 60,
+  "remainingLevelTime": 0,
+  "round": "RIVER",
+  "rounds": [
+    {
+      "round": "PREFLOP",
+      "pot": 0,
+      "currentBet": 2,
+      "community": [],
+      "id": 6966745,
+      "time": 1794961968182
+    },
+    {
+      "round": "FLOP",
+      "pot": 6317,
+      "currentBet": 5710,
+      "community": [
+        {
+          "suit": "HEARTS",
+          "rank": "9",
+          "index": 0,
+          "time": "2026-11-18T00:32:53.729Z"
+        },
+        {
+          "suit": "CLUBS",
+          "rank": "K",
+          "index": 1,
+          "time": "2026-11-18T00:32:53.729Z"
+        },
+        {
+          "suit": "HEARTS",
+          "rank": "5",
+          "index": 2,
+          "time": "2026-11-18T00:32:53.729Z"
+        }
+      ],
+      "id": 6966747,
+      "time": 1794961973720
+    },
+    {
+      "round": "TURN",
+      "pot": 6317,
+      "currentBet": 0,
+      "community": [
+        {
+          "suit": "DIAMONDS",
+          "rank": "4",
+          "index": 3,
+          "time": "2026-11-18T00:32:56.512Z"
+        }
+      ],
+      "id": 6966748,
+      "time": 1794961976501
+    },
+    {
+      "round": "RIVER",
+      "pot": 6317,
+      "currentBet": 0,
+      "community": [
+        {
+          "suit": "SPADES",
+          "rank": "6",
+          "index": 4,
+          "time": "2026-11-18T00:32:59.250Z"
+        }
+      ],
+      "id": 6966751,
+      "time": 1794961979233
+    }
+  ],
+  "seats": [
+    {
+      "id": 2000,
+      "account": 2000,
+      "bankedTime": 45,
+      "bankedTimeEnabled": false,
+      "bet": 0,
+      "index": 0,
+      "isFolded": true,
+      "level": 5,
+      "mucked": true,
+      "revealHand": false,
+      "name": "Player0",
+      "placing": 3,
+      "postingBlinds": false,
+      "potContributions": 1,
+      "rakeTaken": 0,
+      "rakeback": 0,
+      "turboRakebackMultiplier": 1,
+      "hasActiveTurboRakeback": false,
+      "stack": 4793,
+      "winnings": 0,
+      "originalBuyIn": 1000,
+      "waitingForBlind": false,
+      "sittingOut": false,
+      "actions": [
+        {
+          "type": "POST_BLIND",
+          "amount": 1,
+          "time": 1794961967960
+        },
+        {
+          "type": "FOLD",
+          "amount": null,
+          "time": 1794961970608
+        }
+      ],
+      "cards": [],
+      "isSmallBlind": true
+    },
+    {
+      "id": 2002,
+      "account": 2002,
+      "bankedTime": 29,
+      "bankedTimeEnabled": false,
+      "bet": 0,
+      "handRank": "PAIR",
+      "handValue": 1086440,
+      "index": 2,
+      "isFolded": false,
+      "level": 8,
+      "mucked": false,
+      "revealHand": true,
+      "name": "Player2",
+      "placing": 2,
+      "postingBlinds": false,
+      "potContributions": 606,
+      "rakeTaken": 30,
+      "rakeback": 303,
+      "turboRakebackMultiplier": 1,
+      "hasActiveTurboRakeback": false,
+      "stack": 0,
+      "winnings": 0,
+      "originalBuyIn": 1000,
+      "waitingForBlind": false,
+      "sittingOut": false,
+      "actions": [
+        {
+          "type": "POST_BLIND",
+          "amount": 2,
+          "time": 1794961967960
+        },
+        {
+          "type": "CALL",
+          "amount": 606,
+          "time": 1794961972613
+        }
+      ],
+      "cards": [
+        {
+          "holeCard": true,
+          "bestCard": true,
+          "index": 1,
+          "isRevealed": true,
+          "rank": "6",
+          "suit": "HEARTS"
+        },
+        {
+          "holeCard": true,
+          "bestCard": null,
+          "index": 2,
+          "isRevealed": true,
+          "rank": "2",
+          "suit": "CLUBS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 2,
+          "isRevealed": true,
+          "rank": "6",
+          "suit": "SPADES"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 4,
+          "isRevealed": true,
+          "rank": "K",
+          "suit": "CLUBS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 5,
+          "isRevealed": true,
+          "rank": "9",
+          "suit": "HEARTS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 6,
+          "isRevealed": true,
+          "rank": "5",
+          "suit": "HEARTS"
+        }
+      ],
+      "isBigBlind": true
+    },
+    {
+      "id": 2008,
+      "account": 2008,
+      "bankedTime": 30,
+      "bankedTimeEnabled": false,
+      "bet": 0,
+      "handRank": "PAIR",
+      "handValue": 1463766,
+      "index": 8,
+      "isFolded": false,
+      "level": 11,
+      "mucked": false,
+      "revealHand": true,
+      "name": "Player8",
+      "placing": 1,
+      "postingBlinds": false,
+      "potContributions": 5710,
+      "rakeTaken": 30,
+      "rakeback": 636,
+      "turboRakebackMultiplier": 2.099009900990099,
+      "hasActiveTurboRakeback": true,
+      "stack": 0,
+      "winnings": 6257,
+      "originalBuyIn": 1000,
+      "waitingForBlind": false,
+      "sittingOut": false,
+      "actions": [
+        {
+          "type": "RAISE",
+          "amount": 5710,
+          "time": 1794961970163
+        }
+      ],
+      "cards": [
+        {
+          "holeCard": true,
+          "bestCard": true,
+          "index": 1,
+          "isRevealed": true,
+          "rank": "K",
+          "suit": "SPADES"
+        },
+        {
+          "holeCard": true,
+          "bestCard": true,
+          "index": 2,
+          "isRevealed": true,
+          "rank": "T",
+          "suit": "CLUBS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 2,
+          "isRevealed": true,
+          "rank": "K",
+          "suit": "CLUBS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 5,
+          "isRevealed": true,
+          "rank": "9",
+          "suit": "HEARTS"
+        },
+        {
+          "holeCard": false,
+          "bestCard": true,
+          "index": 6,
+          "isRevealed": true,
+          "rank": "6",
+          "suit": "SPADES"
+        }
+      ],
+      "isDealer": true
+    }
+  ],
+  "table": 53567,
+  "turnTimeout": 12,
+  "hostId": null
+}

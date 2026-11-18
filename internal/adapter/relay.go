@@ -70,19 +70,19 @@ func eventTable(data json.RawMessage) int64 {
 }
 
 // Snapshot reads the table and the b52 user's seat/cards and builds the frame.
-func Snapshot(ctx context.Context, up Upstream, tableID int64, playerAddr string) (Frame, error) {
+func Snapshot(ctx context.Context, up Upstream, tableID int64, playerAddr string, rev *Reveals) (Frame, Hero, error) {
 	raw, err := up.Emit(ctx, "join", map[string]any{"tableId": tableID, "password": nil, "fromTable": nil, "currency": nil})
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, Hero{}, err
 	}
 	tb, err := DecodeJoin(raw)
 	if err != nil {
-		return Frame{}, err
+		return Frame{}, Hero{}, err
 	}
 	// blockchain.poker answers `join` for a finished/unknown table with some OTHER table.
 	// Never show that as the requested one.
 	if tb.ID != tableID {
-		return Frame{}, &UpstreamError{Code: "GAME_NOT_FOUND", Message: "table " + strconv.FormatInt(tableID, 10) + " is not running on blockchain.poker"}
+		return Frame{}, Hero{}, &UpstreamError{Code: "GAME_NOT_FOUND", Message: "table " + strconv.FormatInt(tableID, 10) + " is not running on blockchain.poker"}
 	}
 	hero := Hero{Address: playerAddr, SeatIndex: -1}
 	if mine, err := up.Emit(ctx, "getMyTables", map[string]any{}); err == nil {
@@ -101,7 +101,11 @@ func Snapshot(ctx context.Context, up Upstream, tableID int64, playerAddr string
 			}
 		}
 	}
-	return BuildFrame(tb, hero), nil
+	if rev != nil {
+		rev.LearnTable(tb)
+		rev.Apply(&tb)
+	}
+	return BuildFrame(tb, hero), hero, nil
 }
 
 func (r *Relay) ServeHTTP(w http.ResponseWriter, req *http.Request) {
@@ -163,8 +167,10 @@ func (r *Relay) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if min == 0 {
 		min = 750 * time.Millisecond
 	}
+	rev := &Reveals{}
+	hero := Hero{Address: player, SeatIndex: -1}
 	refresh := func() {
-		f, err := Snapshot(ctx, up, tableID, player)
+		f, h, err := Snapshot(ctx, up, tableID, player, rev)
 		if err != nil {
 			log.Printf("relay: snapshot table %d: %v", tableID, err)
 			code := "UPSTREAM"
@@ -174,6 +180,7 @@ func (r *Relay) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			send(ctx, c, map[string]string{"type": "error", "code": code, "message": err.Error(), "gameId": strconv.FormatInt(tableID, 10)})
 			return
 		}
+		hero = h
 		send(ctx, c, f)
 	}
 	refresh()
@@ -195,6 +202,17 @@ func (r *Relay) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			}
 			if t := eventTable(ev.Data); t != 0 && t != tableID {
 				continue
+			}
+			switch ev.Name {
+			case "roundEnd": // all-in and called: hole cards are shown
+				rev.LearnRoundEnd(ev.Data)
+			case "handEnd": // showdown: the push is a full table with the revealed hands
+				if tb, err := DecodeTable(ev.Data); err == nil && tb.ID == tableID {
+					rev.LearnTable(tb)
+					rev.Apply(&tb)
+					send(ctx, c, BuildFrame(tb, hero))
+					last = time.Now().Add(2500 * time.Millisecond) // let the showdown linger before re-reading
+				}
 			}
 			if timer == nil { // coalesce a burst into one trailing refresh
 				wait := min - time.Since(last)
